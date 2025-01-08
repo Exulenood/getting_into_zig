@@ -18,11 +18,27 @@ pub fn main() !void {
     try scores.put("Sylvanas", 95);
 
     if (scores.get("Nerzul")) |score| {
-        try term_out.print("Nerzul's score: {}\n", .{score});
+        try term_out.print("\nNerzul's score: {}\n", .{score});
     }
+
+    try term_out.print("\nAmount of entries: {}\n", .{scores.count()});
+
+    try scores.put("Nerzul", 65);
 
     var iterator = scores.iterator();
     while (iterator.next()) |entry| {
         try term_out.print("{s}: {}\n", .{ entry.key_ptr.*, entry.value_ptr.* });
+    }
+
+    if (scores.contains("Arthas")) {
+        try term_out.print("\nArthas is in the list!\n", .{});
+    }
+
+    _ = scores.remove("Arthas");
+
+    var keyIterator = scores.keyIterator();
+    try term_out.print("\nAll Names:\n", .{});
+    while (keyIterator.next()) |key| {
+      try term_out.print("{s}\n", .{key.*});
     }
 }
